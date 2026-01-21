@@ -91,3 +91,12 @@ Thumbs.db
 *.dxt
 *.mcpb
 .dxt/
+
+# OAuth tokens (should never be committed)
+.pageindex-mcp/
+oauth-tokens.json
+
+# Temporary OAuth scripts (optional - can be committed for convenience)
+# get-tokens.ps1
+# trigger-oauth.ts
+# run-oauth-flow.ps1

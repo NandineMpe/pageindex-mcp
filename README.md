@@ -123,6 +123,18 @@ If your MCP client doesn't support HTTP servers directly, you can use [mcp-remot
 
 > **Note**: Option 1 provides local PDF upload capabilities, while Option 2 only supports PDF processing via URLs (no local file uploads).
 
+### 3. For Dedalus Labs Hosting
+
+Deploy this MCP server on Dedalus Labs platform for production hosting with automatic scaling and health checks.
+
+See [DEDALUS_DEPLOYMENT.md](./DEDALUS_DEPLOYMENT.md) for detailed deployment instructions.
+
+**Quick Start:**
+1. Set up OAuth tokens as environment variables
+2. Deploy your GitHub repository to Dedalus Labs
+3. Configure environment variables in Dedalus dashboard
+4. Access your MCP server via the provided HTTP endpoint
+
 # Related Links
 
 [![PageIndex Home](https://img.shields.io/badge/PageIndex_Home-3B82F6?style=for-the-badge&logo=homeadvisor&logoColor=white)](https://vectify.ai/pageindex)&nbsp;&nbsp;

@@ -99,15 +99,18 @@ export class PageIndexOAuthProvider implements OAuthClientProvider {
   }
 
   async redirectToAuthorization(authorizationUrl: URL): Promise<void> {
+    const urlString = authorizationUrl.toString();
+    console.error(`\n=== OAUTH AUTHORIZATION REQUIRED ===\n`);
+    console.error(`Please open this URL in your browser:\n`);
+    console.error(`${urlString}\n`);
+    console.error(`Waiting for authorization callback...\n`);
+    
     try {
-      await open(authorizationUrl.toString());
+      await open(urlString);
     } catch (error) {
       console.error(
-        error instanceof Error
-          ? `Failed to open browser: ${error.message}\n`
-          : 'Failed to open browser\n',
+        `Note: Could not open browser automatically. Please copy and paste the URL above.\n`,
       );
-      process.exit(1);
     }
   }
 
