@@ -1,0 +1,23 @@
+{
+  "name": "pageindex-mcp",
+  "version": "1.6.3",
+  "description": "PageIndex MCP Server - HTTP Transport",
+  "transport": "http",
+  "entry": "src/index-http.ts",
+  "build": {
+    "command": "npm run build",
+    "output": "build/index-http.js"
+  },
+  "start": {
+    "command": "node build/index-http.js"
+  },
+  "endpoints": {
+    "health": "/health",
+    "sse": "/sse",
+    "mcp": "/mcp"
+  },
+  "env": {
+    "PORT": "3000",
+    "NODE_ENV": "production"
+  }
+}

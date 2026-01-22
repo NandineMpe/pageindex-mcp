@@ -13,10 +13,16 @@ COPY pnpm-lock.yaml* ./
 # Install dependencies
 RUN bun install --frozen-lockfile
 
-# Copy source code
-COPY . .
+# Copy only HTTP server source files (exclude stdio files)
+COPY tsconfig.json tsup.config.ts ./
+COPY src/index-http.ts src/server-http.ts src/
+COPY src/client src/client/
+COPY src/resources src/resources/
+COPY src/tools src/tools/
+COPY src/types src/types/
+COPY src/config.ts src/result.ts src/globals.d.ts src/
 
-# Build the application
+# Build the application (HTTP mode by default)
 ENV CLIENT_TYPE=production
 RUN bun run build
 

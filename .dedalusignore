@@ -1,0 +1,4 @@
+# Files to exclude from Dedalus deployment
+src/server.ts
+src/index.ts
+bin/
