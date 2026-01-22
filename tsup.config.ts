@@ -3,10 +3,12 @@ import { defineConfig } from 'tsup';
 
 const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
 
-const clientTypeMap = {
+const clientTypeMap: Record<string, string> = {
   dxt: 'Claude Desktop Extension',
   mcpb: 'Claude Desktop (MCPB)',
   npm: 'PageIndex MCP',
+  dedalus: 'PageIndex MCP (Dedalus)',
+  production: 'PageIndex MCP (Production)',
 };
 
 const clientType = process.env.CLIENT_TYPE || 'npm';
