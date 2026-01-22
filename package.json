@@ -10,10 +10,11 @@
   "scripts": {
     "build": "tsup",
     "build:dedalus": "CLIENT_TYPE=dedalus tsup",
+    "build:production": "CLIENT_TYPE=production tsup",
     "dev": "tsup --watch",
     "start": "node build/index.js",
     "start:http": "node build/index-http.js",
-    "start:http:bun": "bun build/index-http.js",
+    "start:production": "CLIENT_TYPE=production npm run build:production && node build/index-http.js",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",

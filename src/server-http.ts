@@ -326,11 +326,15 @@ class PageIndexHttpServer {
           res.end(JSON.stringify({ error: 'Not found' }));
         });
 
-        this.httpServer.listen(port, () => {
+        // Listen on all interfaces (0.0.0.0) for production deployment
+        const host = process.env.HOST || '0.0.0.0';
+        this.httpServer.listen(port, host, () => {
+          const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+          const domain = process.env.DOMAIN || `localhost:${port}`;
           console.log(
-            `PageIndex MCP HTTP Server listening on port ${port}\n` +
-              `SSE endpoint: http://localhost:${port}/sse\n` +
-              `Health check: http://localhost:${port}/health\n`,
+            `PageIndex MCP HTTP Server listening on ${host}:${port}\n` +
+              `SSE endpoint: ${protocol}://${domain}/sse\n` +
+              `Health check: ${protocol}://${domain}/health\n`,
           );
           resolve();
         });

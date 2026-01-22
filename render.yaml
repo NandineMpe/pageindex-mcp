@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: pageindex-mcp
+    env: node
+    buildCommand: CLIENT_TYPE=production bun run build
+    startCommand: node build/index-http.js
+    envVars:
+      - key: CLIENT_TYPE
+        value: production
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production

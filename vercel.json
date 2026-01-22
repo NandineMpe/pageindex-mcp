@@ -8,19 +8,23 @@
   ],
   "routes": [
     {
-      "src": "/sse",
-      "dest": "src/index-http.ts"
+      "src": "/health",
+      "dest": "/src/index-http.ts"
     },
     {
-      "src": "/health",
-      "dest": "src/index-http.ts"
+      "src": "/sse",
+      "dest": "/src/index-http.ts"
+    },
+    {
+      "src": "/mcp",
+      "dest": "/src/index-http.ts"
     },
     {
       "src": "/(.*)",
-      "dest": "src/index-http.ts"
+      "dest": "/src/index-http.ts"
     }
   ],
   "env": {
-    "CLIENT_TYPE": "dedalus"
+    "CLIENT_TYPE": "production"
   }
 }

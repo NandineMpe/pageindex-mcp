@@ -12,7 +12,7 @@ const clientTypeMap = {
 const clientType = process.env.CLIENT_TYPE || 'npm';
 
 export default defineConfig({
-  entry: clientType === 'dedalus' ? ['src/index-http.ts'] : ['src/index.ts'],
+  entry: ['dedalus', 'production'].includes(clientType) ? ['src/index-http.ts'] : ['src/index.ts'],
   format: ['esm'],
   target: 'es2022',
   outDir: 'build',
