@@ -1,0 +1,49 @@
+# Dependencies
+node_modules
+
+# Build output (Vercel will build fresh)
+build
+dist
+
+# Dev files
+*.log
+.env
+.env.local
+
+# Package manager files
+bun.lock
+pnpm-lock.yaml
+
+# IDE
+.cursor
+.vscode
+
+# Git
+.git
+
+# Test files
+*.test.ts
+*.spec.ts
+
+# Documentation
+*.md
+!README.md
+
+# Other deployment configs
+Dockerfile
+railway.json
+render.yaml
+nixpacks.toml
+Procfile
+dedalus.json
+.dedalusignore
+
+# OAuth tokens (sensitive)
+oauth-tokens.json
+
+# Scripts
+*.ps1
+trigger-oauth.ts
+
+# Keep api folder for serverless functions
+!api/

@@ -197,6 +197,64 @@ class PageIndexHttpServer {
   }
 
   /**
+   * Handle tools/list request for HTTP endpoint
+   */
+  private async handleToolsList() {
+    if (!this.mcpClient) {
+      await this.connectToRemoteServer();
+    }
+
+    // biome-ignore lint/style/noNonNullAssertion: mcpClient is ensured to be non-null here
+    const remoteToolsProxy = new RemoteToolsProxy(this.mcpClient!);
+    const remoteTools = await remoteToolsProxy.fetchRemoteTools();
+    updateToolsWithRemote(remoteTools);
+
+    const tools = getTools();
+    return {
+      tools: tools.map((tool) => ({
+        name: tool.name,
+        description: tool.description,
+        inputSchema: zodToJsonSchema(tool.inputSchema, {
+          strictUnions: true,
+        }),
+      })),
+    };
+  }
+
+  /**
+   * Handle tools/call request for HTTP endpoint
+   */
+  private async handleToolCall(name: string, args: any) {
+    if (!this.mcpClient) {
+      await this.connectToRemoteServer();
+    }
+
+    try {
+      // biome-ignore lint/style/noNonNullAssertion: mcpClient is ensured to be non-null here
+      const result = await executeTool(name, args, this.mcpClient!);
+      return result;
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(
+              {
+                error: error instanceof Error ? error.message : 'Unknown error',
+                tool: name,
+                timestamp: new Date().toISOString(),
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
+
+  /**
    * Connect to remote PageIndex MCP server
    */
   private async connectToRemoteServer() {
@@ -274,7 +332,7 @@ class PageIndexHttpServer {
             return;
           }
 
-          // Handle POST requests for MCP (alternative to SSE)
+          // Handle POST requests for MCP (HTTP alternative to SSE)
           if (req.url === '/mcp' && req.method === 'POST') {
             try {
               // Read request body
@@ -285,23 +343,38 @@ class PageIndexHttpServer {
               const body = Buffer.concat(chunks).toString('utf-8');
               const requestData = JSON.parse(body);
 
-              // Handle MCP request through server
-              // Note: This is a simplified approach - for full MCP support, use SSE transport
-              res.writeHead(200, { 'Content-Type': 'application/json' });
-              res.end(
-                JSON.stringify({
-                  error: 'Use SSE endpoint /sse for full MCP protocol support',
-                }),
-              );
+              // Ensure remote connection is established
+              await this.connectToRemoteServer();
+
+              // Handle JSON-RPC request
+              if (requestData.method === 'tools/list') {
+                const result = await this.handleToolsList();
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ jsonrpc: '2.0', id: requestData.id, result }));
+              } else if (requestData.method === 'tools/call') {
+                const { name, arguments: args } = requestData.params;
+                const result = await this.handleToolCall(name, args);
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ jsonrpc: '2.0', id: requestData.id, result }));
+              } else {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                  jsonrpc: '2.0',
+                  id: requestData.id,
+                  error: { code: -32601, message: `Method not found: ${requestData.method}` }
+                }));
+              }
             } catch (error) {
               console.error(`Error handling POST request: ${error}\n`);
               res.writeHead(500, { 'Content-Type': 'application/json' });
               res.end(
                 JSON.stringify({
-                  error:
-                    error instanceof Error
-                      ? error.message
-                      : 'Internal server error',
+                  jsonrpc: '2.0',
+                  id: null,
+                  error: {
+                    code: -32603,
+                    message: error instanceof Error ? error.message : 'Internal server error',
+                  }
                 }),
               );
             }
@@ -316,6 +389,12 @@ class PageIndexHttpServer {
                 status: 'ok',
                 name: 'pageindex-mcp',
                 version: __VERSION__,
+                transport: 'http',
+                endpoints: {
+                  health: '/health',
+                  sse: '/sse',
+                  mcp: '/mcp',
+                },
               }),
             );
             return;

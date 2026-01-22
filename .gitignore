@@ -100,3 +100,4 @@ oauth-tokens.json
 # get-tokens.ps1
 # trigger-oauth.ts
 # run-oauth-flow.ps1
+.vercel

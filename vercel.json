@@ -1,22 +1,23 @@
 {
   "version": 2,
+  "outputDirectory": ".",
   "functions": {
-    "api/index.js": {
+    "api/**/*.js": {
       "maxDuration": 60
     }
   },
   "rewrites": [
     {
       "source": "/health",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
       "source": "/sse",
-      "destination": "/api/index.js"
+      "destination": "/api"
     },
     {
-      "source": "/(.*)",
-      "destination": "/api/index.js"
+      "source": "/",
+      "destination": "/api"
     }
   ]
 }
