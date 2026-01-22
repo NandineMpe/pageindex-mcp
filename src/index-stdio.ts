@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { startServer } from './server.js';
+import { startServer } from './server-stdio.js';
 
 async function main() {
   try {

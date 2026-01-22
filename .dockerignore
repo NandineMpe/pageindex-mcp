@@ -21,3 +21,7 @@ run-oauth-flow.ps1
 start-oauth.ps1
 get-tokens.ps1
 trigger-oauth.ts
+
+# Exclude stdio-specific files from Docker build
+src/index-stdio.ts
+src/server-stdio.ts

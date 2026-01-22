@@ -20,7 +20,7 @@ const clientType = process.env.CLIENT_TYPE || 'production';
 const useStdio = ['dxt', 'mcpb', 'npm', 'stdio'].includes(clientType);
 
 export default defineConfig({
-  entry: useStdio ? ['src/index.ts'] : ['src/index-http.ts'],
+  entry: useStdio ? ['src/index-stdio.ts'] : ['src/index-http.ts'],
   format: ['esm'],
   target: 'es2022',
   outDir: 'build',
