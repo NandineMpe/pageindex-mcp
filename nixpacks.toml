@@ -1,0 +1,17 @@
+[phases.setup]
+nixPkgs = ["nodejs-20_x", "bun"]
+
+[phases.install]
+cmds = [
+  "npm install -g bun",
+  "bun install --frozen-lockfile"
+]
+
+[phases.build]
+cmds = [
+  "export CLIENT_TYPE=production",
+  "bun run build:production"
+]
+
+[start]
+cmd = "node build/index-http.js"

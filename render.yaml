@@ -2,7 +2,7 @@ services:
   - type: web
     name: pageindex-mcp
     env: node
-    buildCommand: CLIENT_TYPE=production bun run build
+    buildCommand: npm run build:production
     startCommand: node build/index-http.js
     envVars:
       - key: CLIENT_TYPE

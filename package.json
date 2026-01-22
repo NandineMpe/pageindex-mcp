@@ -11,6 +11,7 @@
     "build": "tsup",
     "build:dedalus": "CLIENT_TYPE=dedalus tsup",
     "build:production": "CLIENT_TYPE=production tsup",
+    "build:http": "CLIENT_TYPE=production tsup",
     "dev": "tsup --watch",
     "start": "node build/index.js",
     "start:http": "node build/index-http.js",
