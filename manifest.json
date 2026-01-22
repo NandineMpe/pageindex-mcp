@@ -33,10 +33,11 @@
   },
   "server": {
     "type": "node",
-    "entry_point": "build/index.js",
+    "entry_point": "build/index-http.js",
+    "transport": "http",
     "mcp_config": {
       "command": "node",
-      "args": ["${__dirname}/build/index.js"]
+      "args": ["${__dirname}/build/index-http.js"]
     }
   }
 }
