@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/index-http.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/sse",
+      "dest": "src/index-http.ts"
+    },
+    {
+      "src": "/health",
+      "dest": "src/index-http.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "src/index-http.ts"
+    }
+  ],
+  "env": {
+    "CLIENT_TYPE": "dedalus"
+  }
+}

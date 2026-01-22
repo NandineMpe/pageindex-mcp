@@ -13,6 +13,7 @@
     "dev": "tsup --watch",
     "start": "node build/index.js",
     "start:http": "node build/index-http.js",
+    "start:http:bun": "bun build/index-http.js",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
