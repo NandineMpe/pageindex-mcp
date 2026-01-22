@@ -1,34 +1,22 @@
 {
   "version": 2,
-  "buildCommand": "CLIENT_TYPE=production npm run build:production",
-  "builds": [
-    {
-      "src": "build/index-http.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["build/**"]
-      }
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/health",
-      "dest": "/build/index-http.js"
+      "source": "/health",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/sse",
-      "dest": "/build/index-http.js"
+      "source": "/sse",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/mcp",
-      "dest": "/build/index-http.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/build/index-http.js"
+      "source": "/(.*)",
+      "destination": "/api/index.js"
     }
-  ],
-  "env": {
-    "CLIENT_TYPE": "production"
-  }
+  ]
 }
