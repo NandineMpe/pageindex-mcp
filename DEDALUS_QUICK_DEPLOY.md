@@ -32,6 +32,8 @@ PORT=3000
 PAGEINDEX_API_URL=https://chat.pageindex.ai
 ```
 
+**Note**: The `DOMAIN` environment variable is optional. Dedalus will provide its own domain automatically. The code is generic and works with any domain.
+
 ### 5. Deploy
 - Click "Deploy" or "Save"
 - Dedalus will build and deploy your server
