@@ -3,7 +3,7 @@
   "outputDirectory": ".",
   "functions": {
     "api/**/*.js": {
-      "maxDuration": 60
+      "maxDuration": 120
     }
   },
   "rewrites": [
@@ -13,6 +13,10 @@
     },
     {
       "source": "/sse",
+      "destination": "/api"
+    },
+    {
+      "source": "/mcp",
       "destination": "/api"
     },
     {
