@@ -7,14 +7,20 @@ const clientTypeMap: Record<string, string> = {
   dxt: 'Claude Desktop Extension',
   mcpb: 'Claude Desktop (MCPB)',
   npm: 'PageIndex MCP',
+  stdio: 'PageIndex MCP (stdio)',
   dedalus: 'PageIndex MCP (Dedalus)',
   production: 'PageIndex MCP (Production)',
 };
 
-const clientType = process.env.CLIENT_TYPE || 'npm';
+// Default to HTTP for hosting platforms (Dedalus, Railway, Render, etc.)
+// Use CLIENT_TYPE=stdio for local stdio mode
+const clientType = process.env.CLIENT_TYPE || 'production';
+
+// Use stdio entry point only when explicitly requested
+const useStdio = ['dxt', 'mcpb', 'npm', 'stdio'].includes(clientType);
 
 export default defineConfig({
-  entry: ['dedalus', 'production'].includes(clientType) ? ['src/index-http.ts'] : ['src/index.ts'],
+  entry: useStdio ? ['src/index.ts'] : ['src/index-http.ts'],
   format: ['esm'],
   target: 'es2022',
   outDir: 'build',
